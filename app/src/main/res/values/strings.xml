@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">ChatClient</string>
+    <string name="string_login">Login</string>
+    <string name="string_port">Port</string>
+    <string name="string_address">Address</string>
+    <string name="string_username">Username</string>
+    <string name="string_connect">Connect</string>
+    <string name="string_input_invalid">"Something Invalid. Please check your input. "</string>
+    <string name="string_logout">Logout</string>
+    <string name="string_welcome_msg">Welcome! @string/string_username</string>
+</resources>

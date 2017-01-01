@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent" android:padding="30dp">
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+    >
+
+        <Button
+                android:text="@string/string_logout"
+                android:layout_height="match_parent" android:id="@+id/button_logout"
+                android:layout_alignParentTop="true" android:layout_alignParentEnd="true"
+                android:textAllCaps="false" android:layout_width="70dp"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" android:id="@+id/chat_title" android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true" android:textSize="14sp" android:gravity="center_vertical"
+                android:text="Welcome"/>
+    </RelativeLayout>
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" android:background="@android:drawable/editbox_background">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:orientation="vertical">
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:id="@+id/chat_msg"/>
+        </LinearLayout>
+    </ScrollView>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+        <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:id="@+id/edit_message" android:layout_weight="1" android:hint="Message"/>
+        <Button
+                android:text="Send"
+                android:layout_height="match_parent" android:id="@+id/button_sendmsg"
+                android:textAllCaps="false" android:layout_width="60dp"/>
+    </LinearLayout>
+</LinearLayout>
