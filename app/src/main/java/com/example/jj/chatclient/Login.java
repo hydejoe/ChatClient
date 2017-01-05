@@ -35,6 +35,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        myapp = (MyApp) getApplication();
+
         button_connect = (Button) findViewById(R.id.button_connect);
         button_connect.setOnClickListener(this);
 
@@ -42,18 +44,11 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         edit_address = (EditText) findViewById(R.id.edit_address);
         edit_port = (EditText) findViewById(R.id.edit_port);
 
-        myapp = (MyApp) getApplication();
-
-        //InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-        //imm.hideSoftInputFromWindow(edit_username.getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
-        //imm.hideSoftInputFromWindow(edit_address.getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
-        //imm.hideSoftInputFromWindow(edit_port.getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
-
         dialog_waiting = myapp.create_dialog(this);
         dialog_waiting.setTitle("Please Wait");
 
-        handler = myapp.create_login_handler(Login.this,myapp);
-        if (myapp.get_socket_status()==myapp.SOCKET_BUSY){
+        handler = myapp.create_login_handler(Login.this, myapp);
+        if (myapp.get_socket_status() == myapp.SOCKET_BUSY) {
             dialog_waiting.show();
         }
 
@@ -62,19 +57,25 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.button_connect) {
-            username = edit_username.getText().toString();
-            address = edit_address.getText().toString();
-            port = edit_port.getText().toString();
-            myapp.save_data(username,address,port);
-            if (check_legal()) connect_and_login();
-            else
-                Toast.makeText(getApplicationContext(), getString(R.string.string_input_invalid), Toast.LENGTH_SHORT).show();
+            load_and_save_data();
+            if (check_legal()) {
+                connect_and_login();
+            } else {
+                error_invalid_input();
+            }
         }
     }
 
-    @Override
-    public boolean onKeyDown(int keycode, KeyEvent event){
-        return super.onKeyDown(keycode,event);
+
+    private void error_invalid_input() {
+        Toast.makeText(getApplicationContext(), getString(R.string.string_input_invalid), Toast.LENGTH_SHORT).show();
+    }
+
+    private void load_and_save_data() {
+        username = edit_username.getText().toString();
+        address = edit_address.getText().toString();
+        port = edit_port.getText().toString();
+        myapp.save_data(username, address, port);
     }
 
     private boolean check_legal() {
@@ -113,8 +114,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         Intent intentChat = new Intent(Login.this, Chat.class);
         startActivity(intentChat);
     }
-
-
 
 
 }

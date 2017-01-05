@@ -26,7 +26,7 @@ public class MyApp extends Application {
     private Thread chatthread;
     final int MSG_CONNECT = 1;
     final int MSG_LOGIN = 2;
-    final int MSG_EXISTEDNAME=3;
+    final int MSG_EXISTEDNAME = 3;
     final int MSG_SUCCESS = 0;
     final int MSG_FAILED = -1;
     final int SOCKET_BUSY = 1;
@@ -43,7 +43,6 @@ public class MyApp extends Application {
         socket = new Socket(address, port);
         return socket;
     }
-
 
     public String get_username() {
         return username;
@@ -75,7 +74,7 @@ public class MyApp extends Application {
         return logindialog;
     }
 
-    public void chat_logout(){
+    public void chat_logout() {
         chatthread.interrupt();
         try {
             socket.close();
@@ -116,16 +115,14 @@ public class MyApp extends Application {
                     send_msg_to_handler(MSG_LOGIN, login_handler);
                     socket.getOutputStream().write(("login " + username + "\n").getBytes());
                     Scanner scanner = new Scanner(socket.getInputStream());
-                    data = scanner.nextLine().split(" ",2)[0];
+                    data = scanner.nextLine().split(" ", 2)[0];
                     if (Objects.equals(data, "OK")) {
                         send_msg_to_handler(MSG_SUCCESS, login_handler);
 
-                    }
-                    else if (Objects.equals(data,"ExistedName")){
-                        send_msg_to_handler(MSG_EXISTEDNAME,login_handler);
+                    } else if (Objects.equals(data, "ExistedName")) {
+                        send_msg_to_handler(MSG_EXISTEDNAME, login_handler);
                         socket.close();
-                    }
-                    else {
+                    } else {
                         send_msg_to_handler(MSG_FAILED, login_handler);
                         socket.close();
                     }
@@ -145,7 +142,7 @@ public class MyApp extends Application {
     }
 
     public Thread create_chat_thread() {
-        if (chatthread==null||!chatthread.isAlive()) {
+        if (chatthread == null || !chatthread.isAlive()) {
             chatthread = new Thread() {
                 boolean __end;
 
@@ -158,7 +155,7 @@ public class MyApp extends Application {
                         try {
                             Scanner scanner = new Scanner(socket.getInputStream());
                             data = scanner.nextLine();
-                            msg=chat_handler.obtainMessage();
+                            msg = chat_handler.obtainMessage();
                             msg.obj = String.format("%s\n", data);
                             chat_handler.sendMessage(msg);
                         } catch (IOException | NoSuchElementException e) {
@@ -228,7 +225,7 @@ public class MyApp extends Application {
                         activity.get().dialog_waiting.setMessage(myapp.dialogmsg);
                         break;
                     case 3:
-                        Toast.makeText(activity.get(), String.format("Failed, %s has already logined",myapp.get_username()), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity.get(), String.format("Failed, %s has already logined", myapp.get_username()), Toast.LENGTH_SHORT).show();
                         activity.get().dialog_waiting.cancel();
                         break;
                     case -1:

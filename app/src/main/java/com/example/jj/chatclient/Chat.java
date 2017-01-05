@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class Chat extends AppCompatActivity implements View.OnClickListener {
     MyApp myapp;
@@ -29,14 +30,15 @@ public class Chat extends AppCompatActivity implements View.OnClickListener {
 
         title = (TextView) findViewById(R.id.chat_title);
         title.setText(String.format("Welcome, %s", myapp.get_username()));
+        message = (TextView) findViewById(R.id.chat_msg);
+
+        edit_msg = (EditText) findViewById(R.id.edit_message);
 
         button_logout = (Button) findViewById(R.id.button_logout);
         button_logout.setOnClickListener(this);
         button_sendmsg = (Button) findViewById(R.id.button_sendmsg);
         button_sendmsg.setOnClickListener(this);
 
-        message = (TextView) findViewById(R.id.chat_msg);
-        edit_msg = (EditText) findViewById(R.id.edit_message);
 
         handler = myapp.create_chat_handler(Chat.this, myapp);
         thread = myapp.create_chat_thread();
@@ -54,23 +56,29 @@ public class Chat extends AppCompatActivity implements View.OnClickListener {
                 logout();
                 break;
             case R.id.button_sendmsg:
-                myapp.send_message(edit_msg.getText().toString());
-                edit_msg.setText("");
+                send_msg();
                 break;
         }
     }
 
     @Override
     public boolean onKeyDown(int keycode, KeyEvent event) {
-        if (keycode == KeyEvent.KEYCODE_BACK) {
+        if (keycode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
             // 按下BACK，同时没有重复
-            if (event.getRepeatCount() == 0) {
-                return true;
-            } else logout();
+            warn_to_use_logout_button();
+            return true;
         }
         return super.onKeyDown(keycode, event);
     }
 
+    private void warn_to_use_logout_button() {
+        Toast.makeText(getApplicationContext(), "Please press \"Logout\" button to logout", Toast.LENGTH_SHORT).show();
+    }
+
+    private void send_msg() {
+        myapp.send_message(edit_msg.getText().toString());
+        edit_msg.setText("");
+    }
 
     private void logout() {
         myapp.chat_logout();
